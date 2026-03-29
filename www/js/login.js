@@ -30,7 +30,7 @@ function handleLogin(e) {
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
         showNotification('Login successful!', 'success');
-        setTimeout(() => loadPage('home'), 500);
+        setTimeout(() => navigate('home'), 500);
     })
     .catch(err => {
         console.error('Login error:', err);

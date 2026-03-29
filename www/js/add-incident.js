@@ -18,9 +18,9 @@ function initAddIncidentPage() {
         backBtn.addEventListener('click', () => {
             if (photoData && confirm('You have an unsaved photo. Discard it?')) {
                 photoData = null;
-                loadPage('home');
+                navigate('home');
             } else if (!photoData) {
-                loadPage('home');
+                navigate('home');
             }
         });
     }
@@ -162,7 +162,7 @@ function submitIncident(category, description, lat, lng, submitBtn, originalText
             form.reset();
             const preview = document.getElementById('photo-preview');
             if (preview) preview.style.display = 'none';
-            setTimeout(() => loadPage('home'), 1000);
+            setTimeout(() => navigate('home'), 1000);
         })
         .catch(err => {
             console.error('Submit error:', err);
