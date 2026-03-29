@@ -13,7 +13,7 @@ function initHomePage() {
     }
 
     if (fabButton) {
-        fabButton.addEventListener('click', () => loadPage('add-incident'));
+        fabButton.addEventListener('click', () => navigate('add-incident'));
     }
 
     if (logoutBtn) {
@@ -163,7 +163,7 @@ function handleLogout() {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         showNotification('Logged out successfully', 'success');
-        setTimeout(() => loadPage('login'), 500);
+        setTimeout(() => navigate('login'), 500);
     }
 }
 

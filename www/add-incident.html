@@ -10,25 +10,33 @@
     <title>Add Incident - Citizen Report</title>
 </head>
 <body>
-    <div class="app-bar">
-        <button id="back-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 20px;margin-left: -8px;">← Back</button>
-        <h1>Add Incident</h1>
-        <div></div>
-    </div>
-    <div class="content">
-        <form data-form="add-incident">
-            <select name="category" required>
+    <header class="app-bar">
+        <button id="back-btn" class="ghost-btn" data-route="home">← Feed</button>
+        <h1>Report Incident</h1>
+        <span class="app-bar-spacer"></span>
+    </header>
+
+    <main class="content">
+        <form data-form="add-incident" class="report-card">
+            <p class="supporting-text">Provide concise details so responders can review quickly.</p>
+
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
                 <option value="">Select Category</option>
                 <option value="accident">Accident</option>
                 <option value="fighting">Fighting</option>
                 <option value="rioting">Rioting</option>
                 <option value="other">Other</option>
             </select>
-            <textarea name="description" placeholder="Description" required></textarea>
-            <button type="button" id="take-photo">Take Photo</button>
-            <img id="photo-preview" style="display:none; max-width:100%;">
-            <button type="submit">Submit</button>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="What happened? Include landmarks, people involved, and urgency." required></textarea>
+
+            <button type="button" id="take-photo" class="secondary-btn">Take Photo</button>
+            <img id="photo-preview" alt="Incident photo preview" style="display:none; max-width:100%;">
+
+            <button type="submit">Submit Report</button>
         </form>
-    </div>
+    </main>
 </body>
 </html>

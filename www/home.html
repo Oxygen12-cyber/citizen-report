@@ -10,20 +10,35 @@
     <title>Home - Citizen Report</title>
 </head>
 <body>
-    <div class="app-bar">
-        <h1>Citizen Report</h1>
-        <button id="logout-btn">Logout</button>
-    </div>
-    <div class="content">
-        <select id="category-filter">
-            <option value="">All Categories</option>
-        </select>
-        <div id="incidents-list" class="scrollable-list"></div>
-    </div>
-    <button id="add-incident-fab" class="fab">+</button>
+    <header class="app-bar">
+        <div class="brand">
+            <h1>Citizen Report</h1>
+            <p>Incident Feed</p>
+        </div>
+        <div class="actions">
+            <button data-route="add-incident" class="ghost-btn">Report Incident</button>
+            <button id="logout-btn" class="ghost-btn">Logout</button>
+        </div>
+    </header>
+
+    <main class="content">
+        <section class="filter-panel">
+            <label for="category-filter">Filter by category</label>
+            <select id="category-filter">
+                <option value="">All Categories</option>
+            </select>
+        </section>
+
+        <section>
+            <div id="incidents-list" class="scrollable-list"></div>
+        </section>
+    </main>
+
+    <button id="add-incident-fab" class="fab" aria-label="Add incident">+</button>
+
     <div id="incident-details-modal" class="modal" style="display:none;">
         <div class="modal-content">
-            <span class="close-details">&times;</span>
+            <span class="close-details" role="button" aria-label="Close incident details">&times;</span>
             <div id="incident-details"></div>
         </div>
     </div>
