@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="css/home.css">
+    <title>Home - Citizen Report</title>
+</head>
+<body>
+    <div class="app-bar">
+        <h1>Citizen Report</h1>
+        <button id="logout-btn">Logout</button>
+    </div>
+    <div class="content">
+        <select id="category-filter">
+            <option value="">All Categories</option>
+        </select>
+        <div id="incidents-list" class="scrollable-list"></div>
+    </div>
+    <button id="add-incident-fab" class="fab">+</button>
+    <div id="incident-details-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-details">&times;</span>
+            <div id="incident-details"></div>
+        </div>
+    </div>
+</body>
+</html>

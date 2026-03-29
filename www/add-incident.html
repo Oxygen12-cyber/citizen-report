@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="css/add-incident.css">
+    <title>Add Incident - Citizen Report</title>
+</head>
+<body>
+    <div class="app-bar">
+        <button id="back-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 20px;margin-left: -8px;">← Back</button>
+        <h1>Add Incident</h1>
+        <div></div>
+    </div>
+    <div class="content">
+        <form data-form="add-incident">
+            <select name="category" required>
+                <option value="">Select Category</option>
+                <option value="accident">Accident</option>
+                <option value="fighting">Fighting</option>
+                <option value="rioting">Rioting</option>
+                <option value="other">Other</option>
+            </select>
+            <textarea name="description" placeholder="Description" required></textarea>
+            <button type="button" id="take-photo">Take Photo</button>
+            <img id="photo-preview" style="display:none; max-width:100%;">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

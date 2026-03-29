@@ -1,0 +1,157 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    overscroll-behavior: none;
+}
+
+body {
+    font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.app-bar {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.app-bar h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.app-bar button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.app-bar button:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.content {
+    padding: 20px;
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+}
+
+form {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+select, textarea {
+    margin: 12px 0;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+select:focus, textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+button {
+    margin: 12px 0;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#take-photo {
+    background-color: #28a745;
+}
+
+#take-photo:hover {
+    background-color: #218838;
+}
+
+#photo-preview {
+    margin: 15px 0;
+    border-radius: 6px;
+    max-width: 100%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+label {
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Mobile-first responsive */
+@media (max-width: 600px) {
+    .app-bar {
+        padding: 12px 15px;
+    }
+
+    .app-bar h1 {
+        font-size: 18px;
+    }
+
+    .app-bar button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .content {
+        padding: 10px;
+        height: calc(100vh - 60px);
+    }
+
+    form {
+        padding: 15px;
+    }
+
+    select, textarea {
+        font-size: 16px;
+    }
+}
