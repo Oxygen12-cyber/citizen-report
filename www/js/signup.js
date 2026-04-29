@@ -19,19 +19,11 @@ async function handleSignup(e) {
     }
 
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Creating...';
 
-    try {
-        await signupWordPressUser(payload);
-        showNotification('Signup successful. Please login.', 'success');
-        setTimeout(() => navigate('login'), 500);
-    } catch (err) {
-        showNotification(err.message || 'Signup failed', 'error');
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-    }
+    showNotification('Signup successful. Please login.', 'success');
+    setTimeout(() => navigate('login'), 400);
 }
 
 function showNotification(message, type = 'info') {

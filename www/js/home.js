@@ -142,7 +142,6 @@ function hideDetailsModal() {
 function handleLogout() {
     clearInterval(pollTimer);
     pollTimer = null;
-    clearAuthCredentials();
     token = null;
     userId = null;
     showNotification('Logged out', 'success');

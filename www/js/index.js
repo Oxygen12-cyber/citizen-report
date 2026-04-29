@@ -1,7 +1,7 @@
 document.addEventListener('deviceready', onDeviceReady, false);
 
-let token = localStorage.getItem('token');
-let userId = localStorage.getItem('userId');
+let token = null;
+let userId = null;
 let categories = [];
 let incidents = [];
 let currentPage = '';
@@ -24,27 +24,19 @@ function onDeviceReady() {
         return;
     }
 
-    if (token) navigate(ROUTES.home);
-    else navigate(ROUTES.login);
+    navigate(ROUTES.login);
 }
 
 function getRouteFromHash() {
     return (window.location.hash || '').replace(/^#\/?/, '');
 }
 
-function requiresAuth(page) {
-    return page === ROUTES.home || page === ROUTES.addIncident;
-}
-
 function navigate(page, options = {}) {
     const { updateHash = true } = options;
 
     if (!Object.values(ROUTES).includes(page)) {
-        page = token ? ROUTES.home : ROUTES.login;
+        page = ROUTES.login;
     }
-
-    if (requiresAuth(page) && !token) page = ROUTES.login;
-    if (!requiresAuth(page) && token && page === ROUTES.login) page = ROUTES.home;
 
     if (updateHash) {
         const nextHash = `#/${page}`;

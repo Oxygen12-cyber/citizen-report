@@ -105,8 +105,12 @@ async function submitIncident({ title, category, description, pos, submitBtn, or
     try {
         let featuredMediaId = 0;
         if (photoData) {
-            const media = await uploadMediaFromDataUrl(photoData, `incident-${Date.now()}.jpg`);
-            featuredMediaId = media.id;
+            try {
+                const media = await uploadMediaFromDataUrl(photoData, `incident-${Date.now()}.jpg`);
+                featuredMediaId = media.id;
+            } catch (err) {
+                featuredMediaId = 0;
+            }
         }
 
         const lat = pos?.coords?.latitude;

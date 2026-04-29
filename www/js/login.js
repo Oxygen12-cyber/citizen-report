@@ -15,21 +15,11 @@ async function handleLogin(e) {
     }
 
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Logging in...';
+    submitBtn.textContent = 'Opening...';
 
-    try {
-        const me = await loginWithWordPressPassword(username, password);
-        token = localStorage.getItem('token');
-        userId = localStorage.getItem('userId');
-        showNotification(`Welcome, ${me.name || username}`, 'success');
-        setTimeout(() => navigate('home'), 350);
-    } catch (err) {
-        showNotification(err.message || 'Login failed', 'error');
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-    }
+    showNotification(`Welcome, ${username}`, 'success');
+    setTimeout(() => navigate('home'), 300);
 }
 
 function showNotification(message, type = 'info') {

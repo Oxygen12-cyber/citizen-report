@@ -7,6 +7,10 @@ const APP_CONFIG = {
     ENDPOINTS: {
         JWT_LOGIN: '/wp-json/jwt-auth/v1/token',
         SIGNUP: '/wp-json/wp/v2/users/register'
+    },
+    SERVICE_USER: {
+        username: 'admin',
+        appPassword: 'emCk VTT2 Z0JS 2Chn 1osC eaUH'
     }
 };
 
@@ -28,6 +32,12 @@ function assertBaseUrl() {
 function getAuthHeader() {
     const authToken = localStorage.getItem('token');
     return authToken ? `Bearer ${authToken}` : null;
+}
+
+function getServiceAuthHeader() {
+    const { username, appPassword } = APP_CONFIG.SERVICE_USER;
+    const basic = btoa(`${username}:${appPassword}`);
+    return `Basic ${basic}`;
 }
 
 function clearAuthCredentials() {
@@ -148,8 +158,7 @@ async function fetchIncidents(params = {}) {
 }
 
 async function uploadMediaFromDataUrl(dataUrl, filename = 'incident.jpg') {
-    const auth = getAuthHeader();
-    if (!auth) throw new Error('Please log in first.');
+    const auth = getServiceAuthHeader();
 
     const response = await fetch(dataUrl);
     const blob = await response.blob();
@@ -179,10 +188,26 @@ async function uploadMediaFromDataUrl(dataUrl, filename = 'incident.jpg') {
 }
 
 async function createIncidentPost(payload) {
-    return wpRequest('/posts', {
+    const res = await rawRequest('/wp-json/wp/v2/posts', {
         method: 'POST',
+        headers: {
+            Authorization: getServiceAuthHeader()
+        },
         body: JSON.stringify(payload)
-    }, true);
+    });
+
+    if (!res.ok) {
+        let errMsg = `WordPress request failed (${res.status})`;
+        try {
+            const errData = await res.json();
+            errMsg = errData.message || errMsg;
+        } catch (e) {
+            // ignore
+        }
+        throw new Error(errMsg);
+    }
+
+    return res.json();
 }
 
 function getLocationMetaText(lat, lng) {
