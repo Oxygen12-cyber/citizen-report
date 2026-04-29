@@ -1,32 +1,34 @@
-function initLoginPage() {
-    const loginForm = document.querySelector('[data-form="login"]');
-    if (loginForm) loginForm.addEventListener('submit', handleLogin);
+function initSignupPage() {
+    const signupForm = document.querySelector('[data-form="signup"]');
+    if (signupForm) signupForm.addEventListener('submit', handleSignup);
 }
 
-async function handleLogin(e) {
+async function handleSignup(e) {
     e.preventDefault();
     const form = e.target;
-    const username = form.username.value.trim();
-    const password = form.password.value.trim();
+    const payload = {
+        name: form.name.value.trim(),
+        username: form.username.value.trim(),
+        email: form.email.value.trim(),
+        password: form.password.value.trim()
+    };
 
-    if (!username || !password) {
-        showNotification('Please fill all fields', 'error');
+    if (!payload.name || !payload.username || !payload.email || !payload.password) {
+        showNotification('Please complete all fields', 'error');
         return;
     }
 
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Logging in...';
+    submitBtn.textContent = 'Creating...';
 
     try {
-        const me = await loginWithWordPressPassword(username, password);
-        token = localStorage.getItem('token');
-        userId = localStorage.getItem('userId');
-        showNotification(`Welcome, ${me.name || username}`, 'success');
-        setTimeout(() => navigate('home'), 350);
+        await signupWordPressUser(payload);
+        showNotification('Signup successful. Please login.', 'success');
+        setTimeout(() => navigate('login'), 500);
     } catch (err) {
-        showNotification(err.message || 'Login failed', 'error');
+        showNotification(err.message || 'Signup failed', 'error');
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
     }
@@ -58,7 +60,7 @@ function showNotification(message, type = 'info') {
 }
 
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initLoginPage);
+    document.addEventListener('DOMContentLoaded', initSignupPage);
 } else {
-    initLoginPage();
+    initSignupPage();
 }

@@ -18,21 +18,20 @@
 
     <main class="content">
         <form data-form="add-incident" class="report-card">
-            <p class="supporting-text">Provide concise details so responders can review quickly.</p>
+            <p class="supporting-text">Share clear details for quick response.</p>
+
+            <label for="title">Incident Title</label>
+            <input id="title" name="title" type="text" placeholder="Short title" required>
 
             <label for="category">Category</label>
             <select id="category" name="category" required>
                 <option value="">Select Category</option>
-                <option value="accident">Accident</option>
-                <option value="fighting">Fighting</option>
-                <option value="rioting">Rioting</option>
-                <option value="other">Other</option>
             </select>
 
             <label for="description">Description</label>
-            <textarea id="description" name="description" placeholder="What happened? Include landmarks, people involved, and urgency." required></textarea>
+            <textarea id="description" name="description" placeholder="What happened?" required></textarea>
 
-            <button type="button" id="take-photo" class="secondary-btn">Take Photo</button>
+            <button type="button" id="take-photo" class="secondary-btn">Attach Photo</button>
             <img id="photo-preview" alt="Incident photo preview" style="display:none; max-width:100%;">
 
             <button type="submit">Submit Report</button>

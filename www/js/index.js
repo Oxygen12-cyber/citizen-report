@@ -8,6 +8,7 @@ let currentPage = '';
 
 const ROUTES = {
     login: 'login',
+    signup: 'signup',
     home: 'home',
     addIncident: 'add-incident'
 };
@@ -23,11 +24,8 @@ function onDeviceReady() {
         return;
     }
 
-    if (token) {
-        navigate(ROUTES.home);
-    } else {
-        navigate(ROUTES.login);
-    }
+    if (token) navigate(ROUTES.home);
+    else navigate(ROUTES.login);
 }
 
 function getRouteFromHash() {
@@ -45,13 +43,8 @@ function navigate(page, options = {}) {
         page = token ? ROUTES.home : ROUTES.login;
     }
 
-    if (requiresAuth(page) && !token) {
-        page = ROUTES.login;
-    }
-
-    if (!requiresAuth(page) && token && page === ROUTES.login) {
-        page = ROUTES.home;
-    }
+    if (requiresAuth(page) && !token) page = ROUTES.login;
+    if (!requiresAuth(page) && token && page === ROUTES.login) page = ROUTES.home;
 
     if (updateHash) {
         const nextHash = `#/${page}`;
@@ -74,9 +67,7 @@ function wirePageRouting() {
         element.addEventListener('click', (event) => {
             event.preventDefault();
             const nextRoute = element.getAttribute('data-route');
-            if (nextRoute) {
-                navigate(nextRoute);
-            }
+            if (nextRoute) navigate(nextRoute);
         });
     });
 }
@@ -95,9 +86,7 @@ function loadPage(page) {
     currentPage = page;
 
     const oldStyle = document.querySelector('link[data-page-style]');
-    if (oldStyle) {
-        oldStyle.remove();
-    }
+    if (oldStyle) oldStyle.remove();
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -106,18 +95,14 @@ function loadPage(page) {
     document.head.appendChild(link);
 
     const oldScript = document.querySelector('script[data-page]');
-    if (oldScript) {
-        oldScript.remove();
-    }
+    if (oldScript) oldScript.remove();
 
     const app = document.getElementById('app');
     app.innerHTML = '<div class="loading-state">Loading page…</div>';
 
     fetch(`${page}.html`)
         .then((res) => {
-            if (!res.ok) {
-                throw new Error(`Failed to fetch ${page}.html (${res.status})`);
-            }
+            if (!res.ok) throw new Error(`Failed to fetch ${page}.html (${res.status})`);
             return res.text();
         })
         .then((html) => {
@@ -131,16 +116,9 @@ function loadPage(page) {
             const script = document.createElement('script');
             script.src = `js/${page}.js`;
             script.setAttribute('data-page', page);
-            script.onload = () => console.log(`Loaded ${page} page script`);
-            script.onerror = () => console.error(`Failed to load ${page} page script`);
             document.body.appendChild(script);
         })
-        .catch((err) => {
-            console.error('Error loading page:', err);
-            app.innerHTML = `
-                <div class="loading-state" role="alert">
-                    Could not load this page. Please try again.
-                </div>
-            `;
+        .catch(() => {
+            app.innerHTML = '<div class="loading-state" role="alert">Could not load this page.</div>';
         });
 }

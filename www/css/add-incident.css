@@ -43,7 +43,7 @@
 .supporting-text { margin: 0 0 6px; color: #607089; }
 label { font-size: 0.9rem; color: #32455f; font-weight: 600; }
 
-select, textarea, button {
+input, select, textarea, button {
     border-radius: 10px;
     border: 1px solid #c8d7ea;
     padding: 11px;

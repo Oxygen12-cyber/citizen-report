@@ -93,3 +93,18 @@
 }
 
 .close-details { float: right; font-size: 28px; cursor: pointer; color: #607089; }
+
+
+.mine-only-wrap {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #32455f;
+    font-size: 0.9rem;
+}
+
+.mine-only-wrap input {
+    width: 16px;
+    height: 16px;
+}

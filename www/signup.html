@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="css/signup.css">
+    <title>Signup - Citizen Report</title>
+</head>
+<body>
+    <header class="app-bar">
+        <div class="brand">
+            <img src="img/logo.png" alt="Citizen Report logo" class="logo">
+            <h1>Citizen Report</h1>
+        </div>
+    </header>
+
+    <main class="content">
+        <section class="auth-card">
+            <p class="eyebrow">Create Account</p>
+            <h2>Join the community</h2>
+            <p class="supporting-text">Create a WordPress user account to submit incidents.</p>
+
+            <form data-form="signup">
+                <label for="name">Full Name</label>
+                <input id="name" type="text" name="name" placeholder="Jane Doe" required>
+
+                <label for="username">Username</label>
+                <input id="username" type="text" name="username" placeholder="janedoe" required>
+
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" placeholder="jane@example.com" required>
+
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" placeholder="Create password" required>
+
+                <button type="submit">Create Account</button>
+            </form>
+
+            <p class="auth-switch">Already have an account? <a href="#/login" data-route="login">Sign in</a></p>
+        </section>
+    </main>
+</body>
+</html>
