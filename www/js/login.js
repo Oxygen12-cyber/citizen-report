@@ -18,6 +18,8 @@ async function handleLogin(e) {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Opening...';
 
+    localStorage.setItem('dummyUsername', username);
+    
     showNotification(`Welcome, ${username}`, 'success');
     setTimeout(() => navigate('home'), 300);
 }

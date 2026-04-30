@@ -22,6 +22,8 @@ async function handleSignup(e) {
     submitBtn.disabled = true;
     submitBtn.textContent = 'Creating...';
 
+    localStorage.setItem('dummyUsername', payload.username);
+
     showNotification('Signup successful. Please login.', 'success');
     setTimeout(() => navigate('login'), 400);
 }

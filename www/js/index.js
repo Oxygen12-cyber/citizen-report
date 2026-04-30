@@ -1,7 +1,6 @@
 document.addEventListener('deviceready', onDeviceReady, false);
 
-let token = null;
-let userId = null;
+
 let categories = [];
 let incidents = [];
 let currentPage = '';
@@ -86,8 +85,6 @@ function loadPage(page) {
     link.setAttribute('data-page-style', page);
     document.head.appendChild(link);
 
-    const oldScript = document.querySelector('script[data-page]');
-    if (oldScript) oldScript.remove();
 
     const app = document.getElementById('app');
     app.innerHTML = '<div class="loading-state">Loading page…</div>';
@@ -105,10 +102,19 @@ function loadPage(page) {
             wirePageRouting();
             setActiveNavState(page);
 
-            const script = document.createElement('script');
-            script.src = `js/${page}.js`;
-            script.setAttribute('data-page', page);
-            document.body.appendChild(script);
+            const existingScript = document.querySelector(`script[data-page="${page}"]`);
+            if (!existingScript) {
+                const script = document.createElement('script');
+                script.src = `js/${page}.js`;
+                script.setAttribute('data-page', page);
+                document.body.appendChild(script);
+            } else {
+                // Call init function if script already loaded
+                const fnName = 'init' + page.split('-').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join('') + 'Page';
+                if (typeof window[fnName] === 'function') {
+                    window[fnName]();
+                }
+            }
         })
         .catch(() => {
             app.innerHTML = '<div class="loading-state" role="alert">Could not load this page.</div>';

@@ -1,12 +1,12 @@
 :root {
-    --bg: #f3f6fb;
+    --bg: #f5f6f8;
     --surface: #ffffff;
-    --text: #17233a;
-    --muted: #607089;
-    --primary: #1d65d8;
-    --primary-strong: #1253b7;
-    --border: #dce4f1;
-    --shadow: 0 12px 28px rgba(23, 35, 58, 0.12);
+    --text: #1a2332;
+    --muted: #6b7a90;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --border: #e2e8f0;
+    --radius: 8px;
 }
 
 * { box-sizing: border-box; }
@@ -16,7 +16,7 @@ html, body {
     padding: 0;
     min-height: 100%;
     font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    background: radial-gradient(circle at top, #eaf2ff, var(--bg));
+    background: var(--bg);
     color: var(--text);
 }
 
@@ -27,11 +27,10 @@ button, input, select, textarea {
 .loading-state {
     margin: 48px auto;
     width: min(560px, calc(100% - 32px));
-    padding: 28px;
-    border-radius: 16px;
+    padding: 24px;
+    border-radius: var(--radius);
     background: var(--surface);
     border: 1px solid var(--border);
-    box-shadow: var(--shadow);
     text-align: center;
     color: var(--muted);
 }

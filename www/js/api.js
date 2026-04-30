@@ -1,13 +1,7 @@
 const APP_CONFIG = {
-    // Set this later when your WordPress server is ready
-    // Example: https://your-domain.com
     WP_BASE_URL: localStorage.getItem('wpBaseUrl') || 'https://josh-blog.wasmer.app/',
     POSTS_PER_PAGE: 50,
     POLL_INTERVAL_MS: 30000,
-    ENDPOINTS: {
-        JWT_LOGIN: '/wp-json/jwt-auth/v1/token',
-        SIGNUP: '/wp-json/wp/v2/users/register'
-    },
     SERVICE_USER: {
         username: 'admin',
         appPassword: 'emCk VTT2 Z0JS 2Chn 1osC eaUH'
@@ -29,21 +23,10 @@ function assertBaseUrl() {
     }
 }
 
-function getAuthHeader() {
-    const authToken = localStorage.getItem('token');
-    return authToken ? `Bearer ${authToken}` : null;
-}
-
 function getServiceAuthHeader() {
     const { username, appPassword } = APP_CONFIG.SERVICE_USER;
     const basic = btoa(`${username}:${appPassword}`);
     return `Basic ${basic}`;
-}
-
-function clearAuthCredentials() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('wpUsername');
 }
 
 async function rawRequest(path, options = {}) {
@@ -60,14 +43,11 @@ async function rawRequest(path, options = {}) {
     });
 }
 
-async function wpRequest(path, options = {}, requireAuth = false) {
+async function wpRequest(path, options = {}) {
     const headers = options.headers ? { ...options.headers } : {};
 
-    if (requireAuth) {
-        const auth = getAuthHeader();
-        if (!auth) throw new Error('Please log in first.');
-        headers.Authorization = auth;
-    }
+    // Always use application password for requests
+    headers.Authorization = getServiceAuthHeader();
 
     const res = await rawRequest(`/wp-json/wp/v2${path}`, {
         ...options,
@@ -89,72 +69,30 @@ async function wpRequest(path, options = {}, requireAuth = false) {
     return res.json();
 }
 
-async function loginWithWordPressPassword(username, password) {
-    const res = await rawRequest(APP_CONFIG.ENDPOINTS.JWT_LOGIN, {
-        method: 'POST',
-        body: JSON.stringify({ username, password })
-    });
-
-    if (!res.ok) {
-        let msg = `Login failed (${res.status})`;
-        try {
-            const data = await res.json();
-            msg = data.message || msg;
-        } catch (e) {
-            // ignore
-        }
-        throw new Error(msg);
-    }
-
-    const data = await res.json();
-    if (!data.token) {
-        throw new Error('No auth token returned. Ensure JWT Auth plugin is active on WordPress.');
-    }
-
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('userId', String(data.user_id || ''));
-    localStorage.setItem('wpUsername', username);
-
-    return {
-        id: data.user_id,
-        name: data.user_display_name || username,
-        email: data.user_email || ''
-    };
-}
-
-async function signupWordPressUser({ username, email, password, name }) {
-    const res = await rawRequest(APP_CONFIG.ENDPOINTS.SIGNUP, {
-        method: 'POST',
-        body: JSON.stringify({ username, email, password, name })
-    });
-
-    if (!res.ok) {
-        let msg = `Signup failed (${res.status})`;
-        try {
-            const data = await res.json();
-            msg = data.message || msg;
-        } catch (e) {
-            // ignore
-        }
-        throw new Error(msg);
-    }
-
-    return res.json();
-}
 
 async function fetchCategories() {
-    return wpRequest('/categories?per_page=100&hide_empty=false', { method: 'GET' }, false);
+    return wpRequest('/categories?per_page=100&hide_empty=false', { method: 'GET' });
 }
 
 async function fetchIncidents(params = {}) {
     const query = new URLSearchParams({
         per_page: String(APP_CONFIG.POSTS_PER_PAGE),
-        _embed: 'true',
         orderby: 'date',
         order: 'desc',
+        _embed: 'true',
         ...params
     });
-    return wpRequest(`/posts?${query.toString()}`, { method: 'GET' }, false);
+    return wpRequest(`/posts?${query.toString()}`, { method: 'GET' });
+}
+
+async function fetchMediaById(id) {
+    if (!id || id === 0) return null;
+    try {
+        const media = await wpRequest(`/media/${id}`, { method: 'GET' });
+        return media?.source_url || null;
+    } catch {
+        return null;
+    }
 }
 
 async function uploadMediaFromDataUrl(dataUrl, filename = 'incident.jpg') {

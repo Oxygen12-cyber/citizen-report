@@ -113,14 +113,17 @@ async function submitIncident({ title, category, description, pos, submitBtn, or
             }
         }
 
-        const lat = pos?.coords?.latitude;
-        const lng = pos?.coords?.longitude;
+        const lat = typeof pos?.coords?.latitude === 'number' ? Number(pos.coords.latitude.toFixed(3)) : null;
+        const lng = typeof pos?.coords?.longitude === 'number' ? Number(pos.coords.longitude.toFixed(3)) : null;
 
+        const dummyUsername = localStorage.getItem('dummyUsername') || 'Anonymous';
         const contentHtml = `
             <p>${escapeHtml(description)}</p>
-            <p><strong>Geo:</strong> ${escapeHtml(getLocationMetaText(lat, lng))}</p>
-            <p><strong>Latitude:</strong> ${typeof lat === 'number' ? lat : 'N/A'}</p>
-            <p><strong>Longitude:</strong> ${typeof lng === 'number' ? lng : 'N/A'}</p>
+            <div style="display:flex;gap:16px;font-size:0.8rem;color:#607089;margin-top:4px;">
+                <span><strong>Lat:</strong> ${typeof lat === 'number' ? lat : 'N/A'}</span>
+                <span><strong>Long:</strong> ${typeof lng === 'number' ? lng : 'N/A'}</span>
+            </div>
+            <div data-dummy-author="${escapeHtml(dummyUsername)}" style="display:none;"></div>
         `;
 
         await createIncidentPost({
